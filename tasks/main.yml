@@ -1,0 +1,20 @@
+---
+# tasks file for k3s
+- name: install k3s cluster
+  shell: curl -sfL https://get.k3s.io | sh -
+
+- name: change /etc/rancher/k3s/k3s.yaml file ownership
+  file:
+    path: /etc/rancher/k3s/k3s.yaml
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+
+- name: validate k3s cluster deployment
+  shell: kubectl get node
+  vars: 
+    ansible_become: false
+  register: node
+
+- name: display nodes
+  debug:
+    var: node.stdout_lines 
