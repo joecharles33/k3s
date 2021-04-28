@@ -10,7 +10,7 @@
     group: "{{ lookup('env', 'USER') }}"
 
 - name: validate k3s cluster deployment
-  shell: kubectl get node
+  shell: kubectl get nodes
   vars: 
     ansible_become: false
   register: node
